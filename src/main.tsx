@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from '@/pages/Landing'
 import Browse from '@/pages/Browse'
+import ProjectDetail from '@/pages/ProjectDetail'
+import DonationSuccessPlaceholder from '@/pages/DonationSuccessPlaceholder'
 import '@/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -11,8 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/browse" element={<Browse />} />
-        {/* Donor track:  /projects/:id, /donate/success
-            Idea Owner track: /ideas, /ideas/:id, /ideas/new
+        <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/donate/success" element={<DonationSuccessPlaceholder />} />
+        {/* Idea Owner track: /ideas, /ideas/:id, /ideas/new
             — added as screens are implemented. */}
       </Routes>
     </BrowserRouter>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { projects } from '@/data/projects'
 import ProjectCard from '@/components/ProjectCard'
 
@@ -7,9 +8,10 @@ import ProjectCard from '@/components/ProjectCard'
  * reference, followed by a vertical list of project cards.
  */
 export default function Browse() {
+  const navigate = useNavigate()
+
   const openProject = (id: string) => {
-    // TODO: navigate(`/projects/${id}`) once the Detail screen exists.
-    void id
+    navigate(`/projects/${id}`)
   }
 
   return (
