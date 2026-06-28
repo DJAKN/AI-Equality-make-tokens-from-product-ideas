@@ -136,6 +136,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.3s ease;
 }
 .logo-pill .gem {
   width: 8px;
@@ -209,6 +210,14 @@
 
 .stage[data-selected='donor'] ~ .divider,
 .stage[data-selected='creator'] ~ .divider { opacity: 0; }
+
+/* The logo pill is a reset control — meaningless while entering, so hide it
+   (along with the divider) once a side is selected. */
+.stage[data-selected='donor'] ~ .logo-pill,
+.stage[data-selected='creator'] ~ .logo-pill {
+  opacity: 0;
+  pointer-events: none;
+}
 
 /* ripple on press */
 .half::after {
