@@ -1,2 +1,19 @@
+# local agent dirs
 .superpowers/
 .claude/
+
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# logs & local env
+*.log
+*.local
+.env
+.env.*
+.vercel
+.DS_Store
+.playwright-mcp/

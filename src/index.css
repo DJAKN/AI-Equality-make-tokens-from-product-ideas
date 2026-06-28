@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+
+  /* Design tokens (mirror of design/fuelup-design-reference.html) */
+  --bg: #0a0e1a;
+  --surface: #131a2e;
+  --hairline: #232a3a;
+  --ink: #e6eaf5;
+  --muted: #8b95b5;
+  --indigo: #6366f1;
+  --cyan: #22d3ee;
+  --violet: #a855f7;
+  --emerald: #34d399;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
