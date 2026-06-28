@@ -10,7 +10,7 @@ through a platform-managed key layer.
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org) 18+ (developed on Node 24)
+- [Node.js](https://nodejs.org) 18+
 
 ### Install & run
 
@@ -19,7 +19,7 @@ npm install      # install dependencies (first time / after dependency changes)
 npm run dev      # start the dev server → http://localhost:5173
 ```
 
-Then open **http://localhost:5173** in your browser.
+Then open **http://localhost:5173** in the browser.
 
 ### Available scripts
 
@@ -37,10 +37,11 @@ payments are planned per the [PRD](PRD.md).
 ## Design
 
 The shared design reference lives in [`design/`](design/). Open
-[`design/fuelup-design-reference.html`](design/fuelup-design-reference.html) in any
-browser — the Landing screen is interactive.
+[`design/fuelup-design-reference.html`](design/fuelup-design-reference.html).
 
 ## Deployment
 
 Deployed on **Vercel**. Pushes to `main` deploy to production; every pull request
-gets a preview URL. `main` is protected — all changes land via PR.
+gets a preview URL. 
+
+`main` is protected — all changes land via PR.
