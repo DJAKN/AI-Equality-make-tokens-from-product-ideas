@@ -71,6 +71,18 @@
   .pill.done{background:rgba(52,211,153,.15); color:#059669;}
   .pill.todo{background:rgba(99,102,241,.12); color:var(--indigo);}
 
+  /* track grouping in screen breakdown */
+  .group-head{display:flex; align-items:center; gap:10px; margin:10px 0 16px;}
+  .group-head .gtag{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; padding:5px 13px; border-radius:999px;}
+  .group-head .gtag.donor-g{background:rgba(34,211,238,.12); color:#0891B2;}
+  .group-head .gtag.owner-g{background:rgba(168,85,247,.12); color:#7C3AED;}
+  .group-head .gline{flex:1; height:1px; background:var(--line);}
+  /* navigation note on a screen card */
+  .nav-note{margin-top:12px; font-size:12.5px; font-weight:600; padding:8px 11px; border-radius:9px; display:flex; align-items:flex-start; gap:7px; line-height:1.4;}
+  .nav-note.back{background:rgba(99,102,241,.08); color:#4338CA; border:1px solid rgba(99,102,241,.18);}
+  .nav-note.root{background:#F1F5F9; color:#64748B; border:1px solid var(--line);}
+  .nav-note .k{flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:700;}
+
   /* ====== Landing (interactive Split Duo) ====== */
   .iphone{
     width:393px; max-width:100%; height:720px; position:relative; margin:0 auto;
@@ -166,11 +178,8 @@
   <div class="hero-inner">
     <div class="brand"><span class="gem"></span>FuelUp</div>
     <h1>Design Reference</h1>
-    <p>Visual language, information architecture, and screen breakdown for the FuelUp mobile web app — a platform that turns idle AI budgets into compute access for developers in need.</p>
+    <p>Visual language, information architecture, and screen breakdown for FuelUp mobile web app — a platform that turns idle AI budgets into compute access for developers in need.</p>
     <div class="meta-row">
-      <span class="chip">v0.1 · Hackathon MVP</span>
-      <span class="chip">Mobile-first · iPhone 17 Pro class</span>
-      <span class="chip">Dark theme</span>
       <span class="chip">Open this file in a browser</span>
     </div>
   </div>
@@ -182,7 +191,8 @@
   <section>
     <div class="eyebrow">01 · Direction</div>
     <h2 class="sec">Visual personality</h2>
-    <p class="sec-desc">A <strong>dark, tech-forward yet restrained</strong> aesthetic — the intersection of a futuristic AI product and the clean professionalism of tools like Linear and Vercel. Indigo-to-cyan gradients carry the "compute / energy" theme; violet marks the creator side. The dark canvas keeps focus on content and makes gradients glow on a demo screen.</p>
+    <p class="sec-desc">A <strong>dark, tech-forward yet restrained</strong> aesthetic — the intersection of a futuristic AI product and the clean professionalism of tools like Linear and Vercel.</p>
+    <p class="sec-desc">We can add dark/bright mode toggle if with buffer.</p>
   </section>
 
   <!-- 2. Color tokens -->
@@ -370,8 +380,10 @@
   <section>
     <div class="eyebrow">06 · Screens</div>
     <h2 class="sec">Screen breakdown</h2>
-    <p class="sec-desc">Five screens beyond Landing. All share the tokens and components above. Status reflects current design fidelity.</p>
+    <p class="sec-desc">Six screens beyond Landing, grouped by track. All share the tokens and components above. Each card notes its in-app navigation — only down-drill screens need a back control; track entry points don't.</p>
 
+    <!-- Donor track -->
+    <div class="group-head"><span class="gtag donor-g">Donor track</span><span class="gline"></span></div>
     <div class="cols">
       <div class="notes">
         <h3 class="sub" style="margin-top:0;">Browse <span class="pill todo">Structure defined</span></h3>
@@ -380,6 +392,7 @@
           <li>Vertical list of project cards: name, one-line pitch, progress bar ($ raised / goal), token estimate.</li>
           <li>Seeded mock data; tap a card → Detail.</li>
         </ul>
+        <div class="nav-note root"><span class="k">⌂</span><span><strong>Entry of donor track — no back.</strong> Forward: tap a project card → Detail + Donate.</span></div>
       </div>
       <div class="notes">
         <h3 class="sub" style="margin-top:0;">Detail + Donate <span class="pill todo">Structure defined</span></h3>
@@ -389,39 +402,59 @@
           <li>Amount chips ($10 / $30 / $50 / custom) → live token estimate ("$30 → ~1.5M GPT-4o tokens").</li>
           <li>Primary CTA "Fund this idea" → mocked payment.</li>
         </ul>
+        <div class="nav-note back"><span class="k">←</span><span><strong>Back to Browse</strong> (top-left). Forward: "Fund this idea" → Donation Success.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub">Donation Success <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Donation Success <span class="pill todo">Structure defined</span></h3>
         <ul>
           <li>Success animation (e.g. burst / check).</li>
           <li>Impact line: "$30 → ~1.5M GPT-4o tokens for Alex".</li>
           <li>Updated project status; "Back to projects".</li>
           <li>Demo idea: animate value flowing toward the creator.</li>
         </ul>
+        <div class="nav-note root"><span class="k">✓</span><span><strong>Terminal screen — no back arrow.</strong> A forward CTA "Back to projects" returns to Browse.</span></div>
       </div>
+    </div>
+
+    <!-- Idea Owner track -->
+    <div class="group-head" style="margin-top:32px;"><span class="gtag owner-g">Idea Owner track</span><span class="gline"></span></div>
+    <div class="cols">
       <div class="notes">
-        <h3 class="sub">My Ideas <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">My Ideas <span class="pill todo">Structure defined</span></h3>
         <ul>
           <li>List of the creator's ideas with per-idea status + balance.</li>
-          <li>"+ Post new idea" → creation form (goal, use case).</li>
+          <li>"+ Post new idea" → creation form.</li>
           <li>Select an idea → its Dashboard.</li>
         </ul>
+        <div class="nav-note root"><span class="k">⌂</span><span><strong>Entry of idea-owner track — no back.</strong> Forward: select an idea → Idea Dashboard, or "+ Post new idea" → New Idea.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub">Idea Dashboard <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Idea Dashboard <span class="pill todo">Structure defined</span></h3>
         <ul>
           <li>Available balance (emerald), incoming donations.</li>
           <li>Platform-issued API key with copy affordance.</li>
           <li>"Run live API call" → real response shown (the demo's payoff moment).</li>
         </ul>
+        <div class="nav-note back"><span class="k">←</span><span><strong>Back to My Ideas</strong> (top-left) — this is a per-idea drill-in.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub">Component primitives</h3>
+        <h3 class="sub" style="margin-top:0;">Post New Idea <span class="pill todo">Structure defined</span></h3>
         <ul>
-          <li>Project card · progress bar · amount chip · gradient CTA · API-key field · status pill.</li>
-          <li>Implemented on shadcn/ui + Tailwind per the PRD stack.</li>
+          <li>Form: name, pitch, goal amount, intended AI use case.</li>
+          <li>Submit → new idea appears in My Ideas.</li>
         </ul>
+        <div class="nav-note back"><span class="k">←</span><span><strong>Cancel / Back to My Ideas</strong> (top-left, form screen). On Submit: return to My Ideas.</span></div>
       </div>
+    </div>
+
+    <!-- Shared -->
+    <div class="group-head" style="margin-top:32px;"><span class="gtag" style="background:#F1F5F9; color:#475569;">Shared</span><span class="gline"></span></div>
+    <div class="notes" style="max-width:720px;">
+      <h3 class="sub" style="margin-top:0;">Component primitives</h3>
+      <ul>
+        <li>Project card · progress bar · amount chip · gradient CTA · API-key field · status pill · top nav bar (back arrow + title).</li>
+        <li>Implemented on shadcn/ui + Tailwind per the PRD stack.</li>
+      </ul>
     </div>
   </section>
 
