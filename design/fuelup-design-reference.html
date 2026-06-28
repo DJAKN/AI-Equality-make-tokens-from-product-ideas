@@ -83,6 +83,24 @@
   .nav-note.root{background:#F1F5F9; color:#64748B; border:1px solid var(--line);}
   .nav-note .k{flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:700;}
 
+  /* top nav bar pattern */
+  .nav-demo{position:relative; background:var(--bg); border:1px solid var(--border); border-radius:24px; overflow:hidden;}
+  .nav-demo .nd-island{position:absolute; top:9px; left:50%; transform:translateX(-50%); width:90px; height:26px; background:#000; border-radius:16px; z-index:5;}
+  .nd-top{padding-top:42px;}
+  .nd-bar{height:48px; display:flex; align-items:center; gap:8px; padding:0 14px; border-bottom:1px solid var(--border);}
+  .nd-back{display:inline-flex; align-items:center; gap:3px; color:var(--cyan); font-size:14px; font-weight:600;}
+  .nd-title{flex:1; text-align:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:var(--text);}
+  .nd-action{min-width:30px; text-align:right; color:var(--muted); font-size:16px;}
+  .nd-body{padding:16px; display:flex; flex-direction:column; gap:9px;}
+  .nd-ph{height:8px; border-radius:4px; background:#1B2236;}
+  .nd-large{padding:14px 18px; border-bottom:1px solid var(--border);}
+  .nd-large .lrow{display:flex; align-items:center; justify-content:space-between;}
+  .nd-large .logo{display:inline-flex; align-items:center; gap:7px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:var(--muted);}
+  .nd-large .logo .gem{width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,var(--cyan),var(--violet));}
+  .nd-large h4{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:26px; color:var(--text); margin:10px 0 0;}
+  .nd-cap{font-size:12.5px; color:var(--ink-soft); margin-top:10px;}
+  .nd-cap b{color:var(--ink);}
+
   /* ====== Landing (interactive Split Duo) ====== */
   .iphone{
     width:393px; max-width:100%; height:720px; position:relative; margin:0 auto;
@@ -449,7 +467,51 @@
 
     <!-- Shared -->
     <div class="group-head" style="margin-top:32px;"><span class="gtag" style="background:#F1F5F9; color:#475569;">Shared</span><span class="gline"></span></div>
-    <div class="notes" style="max-width:720px;">
+
+    <h3 class="sub" style="margin-top:0;">Top navigation bar</h3>
+    <p class="sec-desc" style="margin-bottom:18px;">Defined once, reused on every screen. Two variants. App-level back is the primary path; it calls the router so the browser back / iOS edge-swipe stay in sync (never rely on browser chrome alone — it disappears in full-screen demo and PWA mode).</p>
+    <div class="cols">
+      <!-- Variant A: down-drill, centered title + back -->
+      <div>
+        <div class="nav-demo nd-top">
+          <div class="nd-island"></div>
+          <div class="nd-bar">
+            <span class="nd-back">
+              <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5 1.5 7.5l6 6"/></svg>
+              Back
+            </span>
+            <span class="nd-title">NaviSight</span>
+            <span class="nd-action">⧉</span>
+          </div>
+          <div class="nd-body">
+            <div class="nd-ph" style="width:80%"></div>
+            <div class="nd-ph" style="width:55%"></div>
+            <div style="height:54px; border-radius:10px; background:var(--surface); border:1px solid var(--border)"></div>
+          </div>
+        </div>
+        <div class="nd-cap"><b>Down-drill variant</b> — Detail+Donate, Idea Dashboard, Post New Idea. Left: back (← + label). Center: screen title. Right: optional action (copy, etc.).</div>
+      </div>
+      <!-- Variant B: top-level large title, no back -->
+      <div>
+        <div class="nav-demo nd-top">
+          <div class="nd-island"></div>
+          <div class="nd-large">
+            <div class="lrow">
+              <span class="logo"><span class="gem"></span>FuelUp</span>
+              <span style="color:var(--muted); font-size:16px;">⊕</span>
+            </div>
+            <h4>Browse</h4>
+          </div>
+          <div class="nd-body">
+            <div style="height:54px; border-radius:10px; background:var(--surface); border:1px solid var(--border)"></div>
+            <div style="height:54px; border-radius:10px; background:var(--surface); border:1px solid var(--border)"></div>
+          </div>
+        </div>
+        <div class="nd-cap"><b>Top-level variant</b> — Browse, My Ideas. No back. Large title + logo; right slot for a primary action (e.g. “+ Post new idea”).</div>
+      </div>
+    </div>
+
+    <div class="notes" style="max-width:720px; margin-top:24px;">
       <h3 class="sub" style="margin-top:0;">Component primitives</h3>
       <ul>
         <li>Project card · progress bar · amount chip · gradient CTA · API-key field · status pill · top nav bar (back arrow + title).</li>
