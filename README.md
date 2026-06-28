@@ -1,1 +1,1 @@
-# AI-Equality-make-tokens-from-product-ideas
+# FuelUp: AI Equality platform to make tokens from product ideas
