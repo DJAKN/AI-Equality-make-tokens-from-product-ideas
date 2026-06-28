@@ -1,5 +1,5 @@
 # Product Requirements Document
-## AI Equality — Token Donation Platform for Developers
+## FuelUp — Token Donation Platform for Developers
 
 ---
 
@@ -13,7 +13,7 @@ There is currently no platform that bridges this gap by enabling willing donors 
 
 ## 2. Product Vision
 
-**AI Equality** is a web platform that connects donors (individuals, enterprises, or organizations) with idea owners (developers in need of AI compute) through a transparent, community-driven donation flow. Donors contribute money; the platform converts those contributions into API access and distributes it to verified idea owners via platform-managed API keys.
+**FuelUp** is a web platform that connects donors (individuals, enterprises, or organizations) with idea owners (developers in need of AI compute) through a transparent, community-driven donation flow. Donors contribute money; the platform converts those contributions into API access and distributes it to verified idea owners via platform-managed API keys.
 
 > "Turn idle AI budgets into new idea's breakthrough."
 
@@ -29,7 +29,7 @@ There is currently no platform that bridges this gap by enabling willing donors 
 ### Donors (Givers)
 - Individuals who want to support interested emerging projects
 - Enterprises or teams whose monthly AI budget consistently goes partially unused
-- Organizations aligned with tech-for-good or AI Equality missions
+- Organizations aligned with tech-for-good or FuelUp missions
 
 ---
 
@@ -102,7 +102,7 @@ This model is fully implementable using OpenAI's Admin API (create project, issu
 
 ## 6. Key Differentiators vs. Existing Solutions
 
-| Existing Solution | Overlap | Gap AI Equality Fills |
+| Existing Solution | Overlap | Gap FuelUp Fills |
 |---|---|---|
 | Gitcoin Grants | Community funds developers via crypto | Funds cash/tokens, not AI compute; no API proxy layer |
 | OpenAI Codex Open Source Fund | Directly grants API credits to developers | Platform-controlled, unidirectional; no community donation mechanism |
@@ -138,7 +138,7 @@ This model is fully implementable using OpenAI's Admin API (create project, issu
 | Time | Content |
 |------|---------|
 | 0:00–0:15 | Pain point: developers with great ideas blocked by AI API costs; enterprises with unused budgets |
-| 0:15–0:35 | Solution: AI Equality bridges the gap — donor funds become developer API capacity |
+| 0:15–0:35 | Solution: FuelUp bridges the gap — donor funds become developer API capacity |
 | 0:35–1:15 | Live demo: Alex posts NaviSight → Sarah donates $30 → Alex's dashboard shows new key + live API call succeeds |
 | 1:15–1:30 | Vision: a more equitable AI ecosystem where great ideas aren't gated by compute budgets |
 
