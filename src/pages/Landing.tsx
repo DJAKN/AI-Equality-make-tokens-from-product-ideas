@@ -1,5 +1,5 @@
-import { useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Landing.css'
 
 type Role = 'none' | 'donor' | 'creator'
@@ -10,12 +10,24 @@ type Role = 'none' | 'donor' | 'creator'
  * Interaction: hover a half to preview-expand (desktop), click/tap to enter,
  * tap the center FuelUp pill to reset.
  *
- * TODO: on enter, navigate('/browse') for donor and navigate('/ideas') for
- * creator once those screens exist. For now we show the "entering" state.
+ * On enter we play the "entering" animation briefly, then route to the track.
+ * Creator route (/ideas) is added when that screen exists.
  */
 export default function Landing() {
   const [role, setRole] = useState<Role>('none')
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
+  const timer = useRef<number>()
+
+  // Clean up a pending navigation timer if the component unmounts.
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  const enter = (next: Role) => {
+    setRole(next)
+    if (next === 'donor') {
+      timer.current = window.setTimeout(() => navigate('/browse'), 850)
+    }
+    // TODO: creator → navigate('/ideas') once that screen exists.
+  }
 
   return (
     <div className="landing">
@@ -24,7 +36,7 @@ export default function Landing() {
         <button
           type="button"
           className="half donor"
-          onClick={() => setRole('donor')}
+          onClick={() => enter('donor')}
           aria-label="Continue as donor"
         >
           <span className="ic-wrap">
@@ -47,7 +59,7 @@ export default function Landing() {
         <button
           type="button"
           className="half creator"
-          onClick={() => setRole('creator')}
+          onClick={() => enter('creator')}
           aria-label="Continue as creator"
         >
           <span className="ic-wrap">
@@ -69,7 +81,15 @@ export default function Landing() {
 
       <div className="divider" aria-hidden />
 
-      <button type="button" className="logo-pill" onClick={() => setRole('none')} aria-label="FuelUp home">
+      <button
+        type="button"
+        className="logo-pill"
+        onClick={() => {
+          window.clearTimeout(timer.current)
+          setRole('none')
+        }}
+        aria-label="FuelUp home"
+      >
         <span className="gem" aria-hidden />FuelUp
       </button>
     </div>

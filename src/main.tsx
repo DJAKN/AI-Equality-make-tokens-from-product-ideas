@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from '@/pages/Landing'
+import Browse from '@/pages/Browse'
 import '@/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -9,7 +10,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
-        {/* Donor track:  /browse, /projects/:id, /donate/success
+        <Route path="/browse" element={<Browse />} />
+        {/* Donor track:  /projects/:id, /donate/success
             Idea Owner track: /ideas, /ideas/:id, /ideas/new
             — added as screens are implemented. */}
       </Routes>
