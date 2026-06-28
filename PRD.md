@@ -1,14 +1,11 @@
 # Product Requirements Document
 ## AI Equality — Token Donation Platform for Developers
 
-**Version:** 0.1 (Hackathon MVP)
-**Date:** 2026-06-28
-
 ---
 
 ## 1. Problem Statement
 
-AI API access is unevenly distributed. Independent developers and idea owners with genuine potential often cannot afford subscription plans or API credits, while enterprises and individuals on paid plans frequently leave a significant portion of their monthly budget unused.
+AI-powered product flow/development access is unevenly distributed. Independent developers and idea owners with genuine potential may not afford sparing enough budget for subscription plans or API credits, while enterprises and individuals on paid plans frequently leave a significant portion of their monthly budget unused.
 
 There is currently no platform that bridges this gap by enabling willing donors to fund AI API access directly for developers in need — not as a cash grant, but as usable compute capacity delivered through a managed API layer.
 
@@ -18,7 +15,7 @@ There is currently no platform that bridges this gap by enabling willing donors 
 
 **AI Equality** is a web platform that connects donors (individuals, enterprises, or organizations) with idea owners (developers in need of AI compute) through a transparent, community-driven donation flow. Donors contribute money; the platform converts those contributions into API access and distributes it to verified idea owners via platform-managed API keys.
 
-> "Turn idle AI budgets into someone else's breakthrough."
+> "Turn idle AI budgets into new idea's breakthrough."
 
 ---
 
@@ -27,12 +24,12 @@ There is currently no platform that bridges this gap by enabling willing donors 
 ### Idea Owners (Receivers)
 - Independent developers or small teams with a concrete product idea
 - Cannot afford AI API subscriptions or credit top-ups
-- Have a clear use case for AI compute (e.g., calling GPT-4o, Claude, etc.)
+- Have a clear use case for AI compute or development (e.g., calling GPT-4o, Claude, etc.)
 
 ### Donors (Givers)
-- Individuals who want to support meaningful AI projects
+- Individuals who want to support interested emerging projects
 - Enterprises or teams whose monthly AI budget consistently goes partially unused
-- Organizations aligned with tech-for-good or open innovation missions
+- Organizations aligned with tech-for-good or AI Equality missions
 
 ---
 
@@ -40,7 +37,7 @@ There is currently no platform that bridges this gap by enabling willing donors 
 
 ### Actors
 - **Alex**: Independent developer with a promising idea, no API budget
-- **Sarah**: Individual donor willing to support meaningful projects
+- **Sarah**: Individual donor willing to support new projects
 
 ### Flow
 
@@ -55,7 +52,7 @@ The project appears on the public listing with status: **"Fundraising — $0 / $
 
 **Step 2 — Sarah discovers and donates**
 Sarah browses the project list, selects NaviSight, and chooses to donate $30. The platform shows:
-> "Your $30 will give Alex approximately 1.5 million tokens of AI compute."
+> "Your $30 will give Alex approximately 1.5 million tokens of AI compute in GPT-4o."
 
 Sarah confirms and completes payment. The project status updates to: **"Fundraising — $30 / $50"**
 
@@ -90,9 +87,9 @@ This model is fully implementable using OpenAI's Admin API (create project, issu
 | UI | Tailwind CSS + shadcn/ui | High quality design with low effort |
 | Backend API | Node.js + Express | Familiar, easy to deploy |
 | Database + Auth | Supabase | PostgreSQL + built-in auth, generous free tier |
-| Payment | Mocked flow (button → success state) | Sufficient for hackathon demo |
+| Payment | Mocked flow (button → success state) | Sufficient for the demo |
 | API Key delivery | Platform OpenAI Org key (real call in demo) | Makes the demo moment real and convincing |
-| Deployment | Vercel (frontend + backend) | Zero-config, instant URL for judges to access via QR code |
+| Deployment | Vercel (frontend + backend) | Zero-config, instant URL for reviewers to access via QR code |
 
 ### Core Pages
 
@@ -119,10 +116,11 @@ This model is fully implementable using OpenAI's Admin API (create project, issu
 ## 7. MVP Scope (Hackathon)
 
 ### In Scope
-- Project listing page with seeded mock data
-- Project detail + donation flow (payment mocked)
-- Developer dashboard with platform-issued API key display
-- One live API call demo triggered from the dashboard
+- Initial landing page: selection between donors/idea owners.
+- (donors) Project listing page with seeded mock data
+- (donors) Project detail + donation flow (payment mocked)
+- (idea owners) Developer dashboard with platform-issued API key display
+- (idea owners) One live API call demo triggered from the dashboard
 - Mobile-responsive web UI accessible via QR code
 
 ### Out of Scope (Post-Hackathon)
@@ -148,7 +146,5 @@ This model is fully implementable using OpenAI's Admin API (create project, issu
 
 ## 9. Open Questions
 
-- Which AI providers to support at launch beyond OpenAI?
 - Should donor contributions be anonymous or publicly attributed?
 - How to verify that idea owners are using credits for their stated project?
-- Minimum viable accountability mechanism (e.g., progress updates, milestone check-ins)?
