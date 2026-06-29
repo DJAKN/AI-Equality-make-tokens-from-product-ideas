@@ -1,8 +1,28 @@
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fundingPercent, formatTokens, getProject } from '@/data/projects'
+import { getProjectUsage, formatBucketDate, formatTimestamp } from '@/data/usageLedger'
 
-const presetAmounts = [10, 30, 50]
+function HomeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M3 12L12 3l9 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 10v9a1 1 0 0 0 1 1h4v-4h4v4h4a1 1 0 0 0 1-1v-9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 function BackIcon() {
   return (
@@ -43,6 +63,7 @@ export default function ProjectDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const project = id ? getProject(id) : undefined
+  const usage = id ? getProjectUsage(id) : undefined
   const [selectedAmount, setSelectedAmount] = useState(30)
   const [customAmount, setCustomAmount] = useState('')
 
@@ -74,7 +95,7 @@ export default function ProjectDetail() {
           paddingRight: 'env(safe-area-inset-right)',
         }}
       >
-        <header className="grid grid-cols-[48px_1fr_72px] items-center px-4 pb-4 pt-2">
+        <header className="grid grid-cols-[48px_1fr_auto] items-center gap-2 px-4 pb-4 pt-2">
           <button
             type="button"
             onClick={goBack}
@@ -87,13 +108,23 @@ export default function ProjectDetail() {
             <p className="truncate font-display text-base font-bold text-ink">
               {project?.name ?? 'Project'}
             </p>
-            <p className="mt-0.5 text-[11px] font-medium text-muted">Detail + Donate</p>
+            <p className="mt-0.5 text-[11px] font-medium text-muted">Project details</p>
           </div>
-          {project ? (
-            <span className="justify-self-end rounded-full border border-brand-emerald/20 bg-brand-emerald/10 px-2.5 py-1 text-[11px] font-semibold text-brand-emerald">
-              Live
-            </span>
-          ) : null}
+          <div className="flex items-center gap-2">
+            {project ? (
+              <span className="rounded-full border border-brand-emerald/20 bg-brand-emerald/10 px-2.5 py-1 text-[11px] font-semibold text-brand-emerald">
+                Live
+              </span>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              aria-label="Back to home"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-surface text-muted transition active:scale-95"
+            >
+              <HomeIcon />
+            </button>
+          </div>
         </header>
 
         {!project ? (
@@ -101,7 +132,7 @@ export default function ProjectDetail() {
             <section className="rounded-2xl border border-hairline bg-surface p-5">
               <p className="font-display text-2xl font-bold text-ink">Project not found</p>
               <p className="mt-2 text-sm leading-6 text-muted">
-                This idea is no longer available, or the project link is incorrect.
+                This project is no longer available, or the link is incorrect.
               </p>
               <button
                 type="button"
@@ -147,17 +178,194 @@ export default function ProjectDetail() {
                 </div>
                 <div className="mt-3 flex items-center justify-between text-xs text-muted">
                   <span>{pct}% funded</span>
-                  <span>≈ {formatTokens(project.goal)} tokens at goal</span>
+                  <span>About {formatTokens(project.goal)} tokens at goal</span>
                 </div>
               </div>
             </section>
 
+            {usage && project.raised > 0 ? (
+              <>
+                {/* Impact Summary */}
+                <section className="rounded-[28px] border border-hairline bg-surface p-5 shadow-[0_24px_80px_rgba(0,0,0,.24)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-indigo">
+                    Compute funded
+                  </p>
+
+                  {/* Burn-down: used vs remaining */}
+                  <div className="mt-4 rounded-2xl border border-hairline bg-bg/55 p-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-semibold text-brand-violet">
+                        {(usage.tokensUsed / 1_000).toFixed(0)}K used
+                      </span>
+                      <span className="text-muted">
+                        {(usage.tokensRemaining / 1_000).toFixed(0)}K left
+                      </span>
+                    </div>
+                    <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-[#1B2236]">
+                      <div
+                        className="h-full rounded-l-full transition-[width] duration-500"
+                        style={{
+                          width: `${((usage.tokensUsed / (usage.tokensUsed + usage.tokensRemaining)) * 100).toFixed(1)}%`,
+                          background: 'linear-gradient(90deg,#A855F7,#6366F1)',
+                        }}
+                      />
+                      <div
+                        className="h-full flex-1 rounded-r-full"
+                        style={{ background: 'linear-gradient(90deg,#6366F1,#22D3EE)' }}
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-muted">
+                      {((usage.tokensUsed / (usage.tokensUsed + usage.tokensRemaining)) * 100).toFixed(0)}% of funded tokens consumed
+                    </p>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl border border-hairline bg-bg/55 p-4">
+                      <p className="text-xs text-muted">Tokens funded</p>
+                      <p className="mt-1 font-display text-xl font-bold text-brand-cyan">
+                        {formatTokens(usage.totalDonated)}
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-hairline bg-bg/55 p-4">
+                      <p className="text-xs text-muted">Total cost</p>
+                      <p className="mt-1 font-display text-xl font-bold text-brand-emerald">
+                        ${usage.modelBreakdown.reduce((s, m) => s + m.cost, 0).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Usage Over Time — bottom-anchored bar chart */}
+                <section className="rounded-[28px] border border-hairline bg-surface p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+                    Usage over time
+                  </p>
+                  {(() => {
+                    const max = Math.max(...usage.dailyUsage.map((d) => d.tokens))
+                    const chartH = 64
+                    return (
+                      <div className="mt-5 flex items-end gap-1.5" style={{ height: chartH + 20 }}>
+                        {usage.dailyUsage.map((d) => {
+                          const barH = Math.max(4, Math.round((d.tokens / max) * chartH))
+                          return (
+                            <div key={d.dateUtc} className="flex flex-1 flex-col items-center gap-1.5">
+                              <div
+                                className="w-full rounded-t-[4px]"
+                                style={{
+                                  height: barH,
+                                  background: 'linear-gradient(180deg,#6366F1,#22D3EE)',
+                                }}
+                              />
+                              <span className="text-[9px] leading-none text-muted">
+                                {formatBucketDate(d.dateUtc)}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
+                </section>
+
+                {/* Compute Allocation — with inline share bars */}
+                <section className="rounded-[28px] border border-hairline bg-surface p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+                    Compute allocation
+                  </p>
+                  {(() => {
+                    const maxT = Math.max(...usage.modelBreakdown.map((m) => m.tokens))
+                    return (
+                      <div className="mt-4 space-y-3">
+                        {usage.modelBreakdown.map((m) => (
+                          <div key={m.model} className="rounded-2xl border border-hairline bg-bg/55 px-4 py-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-semibold text-brand-cyan">{m.model}</span>
+                              <div className="text-right">
+                                <span className="block text-sm font-bold text-ink">
+                                  {(m.tokens / 1_000).toFixed(0)}K
+                                </span>
+                                <span className="text-xs text-muted">${m.cost.toFixed(2)}</span>
+                              </div>
+                            </div>
+                            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-[#1B2236]">
+                              <div
+                                className="h-full rounded-full transition-[width] duration-500"
+                                style={{
+                                  width: `${((m.tokens / maxT) * 100).toFixed(1)}%`,
+                                  background: 'linear-gradient(90deg,#6366F1,#22D3EE)',
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })()}
+                </section>
+
+                {/* Recent Activity */}
+                <section className="rounded-[28px] border border-hairline bg-surface p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+                    Recent activity
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    {usage.recentRequests.slice(0, 3).map((r, i) => (
+                      <div
+                        key={i}
+                        className="rounded-2xl border border-hairline bg-bg/55 px-4 py-3"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-ink">{r.requestType}</p>
+                            <p className="mt-0.5 text-xs text-muted">
+                              {r.model} · {formatTimestamp(r.timestampUtc)}
+                            </p>
+                          </div>
+                          <span
+                            className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                              r.status === 'Success'
+                                ? 'bg-brand-emerald/10 text-brand-emerald'
+                                : 'bg-red-500/10 text-red-400'
+                            }`}
+                          >
+                            {r.status}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 text-xs text-muted">
+                          {(r.totalTokens / 1_000).toFixed(1)}K tokens · ${r.estimatedCost.toFixed(2)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Contribution History */}
+                <section className="rounded-[28px] border border-hairline bg-surface p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+                    Contribution history
+                  </p>
+                  <div className="mt-4 rounded-2xl border border-hairline bg-bg/55 px-4 py-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-ink">{project.name}</span>
+                      <span className="rounded-full bg-brand-emerald/10 px-2.5 py-0.5 text-xs font-semibold text-brand-emerald">
+                        Active
+                      </span>
+                    </div>
+                    <div className="mt-2 flex items-center justify-between text-xs text-muted">
+                      <span>${usage.totalDonated} contributed</span>
+                      <span>About {formatTokens(usage.totalDonated)} tokens funded</span>
+                    </div>
+                  </div>
+                </section>
+              </>
+            ) : null}
+
             <section className="rounded-[28px] border border-hairline bg-surface p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="font-display text-xl font-bold text-ink">Choose impact</h2>
+                  <h2 className="font-display text-xl font-bold text-ink">Fund API access</h2>
                   <p className="mt-1 text-sm leading-5 text-muted">
-                    Your donation becomes platform-managed API access for Alex.
+                    Your contribution becomes platform-managed compute for Alex.
                   </p>
                 </div>
                 <div className="rounded-full bg-brand-cyan/10 p-2 text-brand-cyan">
@@ -165,36 +373,69 @@ export default function ProjectDetail() {
                 </div>
               </div>
 
-              <div className="mt-5 grid grid-cols-3 gap-2">
-                {presetAmounts.map((amount) => {
-                  const active = customAmount === '' && selectedAmount === amount
-                  return (
-                    <button
-                      key={amount}
-                      type="button"
-                      onClick={() => {
-                        setSelectedAmount(amount)
-                        setCustomAmount('')
-                      }}
-                      className={`rounded-2xl border px-3 py-3 text-sm font-bold transition active:scale-[0.98] ${
-                        active
-                          ? 'border-transparent text-bg'
-                          : 'border-hairline bg-bg/55 text-ink hover:border-brand-cyan/50'
-                      }`}
-                      style={
-                        active
-                          ? { background: 'linear-gradient(135deg,#6366F1,#22D3EE)' }
-                          : undefined
-                      }
-                    >
-                      ${amount}
-                    </button>
-                  )
-                })}
+              <div className="mt-5">
+                <style>{`
+                  .donation-slider {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    height: 6px;
+                    border-radius: 9999px;
+                    outline: none;
+                    cursor: pointer;
+                  }
+                  .donation-slider::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 9999px;
+                    background: #fff;
+                    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+                    cursor: pointer;
+                  }
+                  .donation-slider::-moz-range-thumb {
+                    width: 22px;
+                    height: 22px;
+                    border: none;
+                    border-radius: 9999px;
+                    background: #fff;
+                    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+                    cursor: pointer;
+                  }
+                `}</style>
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-xs text-muted">$1</span>
+                  <span
+                    className="rounded-full px-3 py-1 text-sm font-bold text-bg"
+                    style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)' }}
+                  >
+                    ${customAmount !== '' ? customAmount : selectedAmount}
+                  </span>
+                  <span className="text-xs text-muted">$500</span>
+                </div>
+                <input
+                  type="range"
+                  min={1}
+                  max={500}
+                  step={1}
+                  value={customAmount !== '' ? (Number(customAmount) || selectedAmount) : selectedAmount}
+                  onChange={(e) => {
+                    setSelectedAmount(Number(e.target.value))
+                    setCustomAmount('')
+                  }}
+                  className="donation-slider w-full"
+                  style={{
+                    background: (() => {
+                      const val = customAmount !== '' ? (Number(customAmount) || selectedAmount) : selectedAmount
+                      const pct = ((val - 1) / 499) * 100
+                      return `linear-gradient(to right, #6366F1 0%, #22D3EE ${pct}%, #1B2236 ${pct}%)`
+                    })(),
+                  }}
+                />
               </div>
 
               <label className="mt-3 block">
-                <span className="sr-only">Custom donation amount</span>
+                  <span className="sr-only">Custom contribution amount</span>
                 <div className="flex items-center rounded-2xl border border-hairline bg-bg/55 px-4 py-3 focus-within:border-brand-cyan/60">
                   <span className="text-sm font-semibold text-muted">$</span>
                   <input
@@ -210,10 +451,10 @@ export default function ProjectDetail() {
 
               <div className="mt-5 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/10 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-cyan">
-                  Token estimate
+                  Estimated compute
                 </p>
                 <p className="mt-2 text-sm leading-6 text-ink">
-                  <span className="font-bold">${effectiveAmount}</span> gives Alex approximately{' '}
+                  <span className="font-bold">${effectiveAmount}</span> gives Alex about{' '}
                   <span className="font-bold text-brand-cyan">{formatTokens(effectiveAmount)}</span>{' '}
                   GPT-4o tokens.
                 </p>
@@ -225,9 +466,10 @@ export default function ProjectDetail() {
                 className="mt-5 w-full rounded-full px-5 py-4 text-sm font-bold text-bg shadow-[0_16px_48px_rgba(34,211,238,.24)] transition active:scale-[0.99]"
                 style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)' }}
               >
-                Fund this idea
+                Fund this project
               </button>
             </section>
+
           </main>
         )}
       </div>
