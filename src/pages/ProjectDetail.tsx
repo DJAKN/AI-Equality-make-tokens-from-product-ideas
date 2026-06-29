@@ -442,16 +442,9 @@ export default function ProjectDetail() {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     value={customAmount}
-                    onChange={(event) => {
-                      // #region agent log
-                      const raw = event.target.value;
-                      const cleaned = raw.replace(/\D/g, '');
-                      const isAllDigits = /^\d*$/.test(raw);
-                      fetch('http://127.0.0.1:7326/ingest/676b21f0-94a5-44eb-827b-9616606845df',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'5710eb'},body:JSON.stringify({sessionId:'5710eb',hypothesisId:'H-B',location:'ProjectDetail.tsx:onChange',message:isAllDigits?'DIGIT input':'NON-DIGIT input stripped',data:{raw,cleaned,isAllDigits,charCodes:Array.from(raw).map(c=>c.charCodeAt(0))},timestamp:Date.now()})}).catch(()=>{});
-                      // #endregion
-                      setCustomAmount(cleaned);
-                    }}
-                    placeholder="Custom amount"                    className="ml-2 w-full bg-transparent text-sm font-semibold text-ink outline-none placeholder:text-muted"
+                    onChange={(event) => setCustomAmount(event.target.value.replace(/\D/g, ''))}
+                    placeholder="Custom amount"
+                    className="ml-2 w-full bg-transparent text-sm font-semibold text-ink outline-none placeholder:text-muted"
                   />
                 </div>
               </label>
