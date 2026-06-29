@@ -30,8 +30,10 @@ For a cleaner version-controlled setup:
 - Generated TypeScript database types from `supabase gen types`.
 - Optional Supabase Storage bucket for uploaded demo videos. For the MVP, a `demo_video_url` column is enough.
 
-Current local workstation note: `supabase` and `psql` are not installed, so the
-migration was written but not applied locally.
+Current local workstation note: the repo has a local Supabase CLI dependency and
+`npx supabase --version` works. Full local Supabase emulation still needs
+Docker. `postgresql-client` and Docker are not installed system-wide, and this
+session cannot install them unattended because sudo requires a password.
 
 ## Schema Shape
 
@@ -78,23 +80,31 @@ platform-proxied balance metering, not provider-enforced hard dollar caps.
 
 ## Suggested Setup Commands
 
-Install the client library when the frontend/backend is ready to connect:
+Installed repo-local packages:
 
 ```bash
 npm install @supabase/supabase-js
+npm install --save-dev supabase
 ```
 
 With the Supabase CLI installed and linked:
 
 ```bash
-supabase link --project-ref <project-ref>
-supabase db push
-supabase gen types typescript --linked --schema public > src/lib/database.types.ts
+npm run db:push
+npm run db:types
 ```
 
 Without the CLI, paste the SQL migration into the Supabase Dashboard SQL editor.
 After applying it, test with one auth user, one `projects` row, one mocked
 `donations` row, and one mocked `compute_usage_events` row before wiring the UI.
+
+For local Supabase Studio and local migration resets, install Docker first, then
+run:
+
+```bash
+npm run db:start
+npm run db:status
+```
 
 ## Council Synthesis
 
