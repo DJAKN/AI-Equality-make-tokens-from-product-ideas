@@ -1,4 +1,5 @@
 import { creatorFundingPercent, formatCurrency, type CreatorIdea } from '@/data/creatorIdeas'
+import FundingProgressBar from '@/components/FundingProgressBar'
 
 interface CreatorIdeaCardProps {
   idea: CreatorIdea
@@ -28,12 +29,7 @@ export default function CreatorIdeaCard({ idea, onOpen }: CreatorIdeaCardProps) 
       <p className="mt-1 text-sm leading-5 text-muted">{idea.tagline}</p>
 
       <div className="mt-4">
-        <div className="h-2 overflow-hidden rounded-full bg-[#1B2236]">
-          <div
-            className="h-full rounded-full transition-[width] duration-500"
-            style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#A855F7,#6366F1)' }}
-          />
-        </div>
+        <FundingProgressBar raised={idea.raised} goal={idea.goal} />
         <div className="mt-2 flex items-center justify-between text-xs text-muted">
           <span>
             <span className="font-semibold text-ink">${idea.raised}</span> / ${idea.goal}

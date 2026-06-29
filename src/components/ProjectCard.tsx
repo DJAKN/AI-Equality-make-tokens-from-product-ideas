@@ -1,4 +1,5 @@
 import { type Project, fundingPercent, formatTokens } from '@/data/projects'
+import FundingProgressBar from '@/components/FundingProgressBar'
 
 interface ProjectCardProps {
   project: Project
@@ -30,12 +31,7 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
       <p className="mt-1 text-sm text-muted">{project.tagline}</p>
 
       <div className="mt-4">
-        <div className="h-2 overflow-hidden rounded-full" style={{ background: '#1B2236' }}>
-          <div
-            className="h-full rounded-full transition-[width] duration-500"
-            style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#6366F1,#22D3EE)' }}
-          />
-        </div>
+        <FundingProgressBar raised={project.raised} goal={project.goal} />
         <div className="mt-2 flex items-center justify-between text-xs text-muted">
           <span>
             <span className="font-semibold text-ink">${project.raised}</span> raised

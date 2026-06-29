@@ -54,7 +54,7 @@ export const projects: Project[] = [
       'Real-time image recognition and voice guidance to help blind users navigate their surroundings independently.',
     useCase: 'GPT-4o Vision',
     goal: 50,
-    raised: 0,
+    raised: 30,
     status: 'fundraising',
   },
 ]
