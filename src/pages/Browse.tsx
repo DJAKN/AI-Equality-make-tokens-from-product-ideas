@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { projects } from '@/data/projects'
+import { type Project } from '@/data/projects'
+import { listProjects } from '@/data/projectRepository'
 import ProjectCard from '@/components/ProjectCard'
 
 /**
@@ -9,6 +11,35 @@ import ProjectCard from '@/components/ProjectCard'
  */
 export default function Browse() {
   const navigate = useNavigate()
+  const [projectList, setProjectList] = useState<Project[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let ignore = false
+
+    async function load() {
+      try {
+        const nextProjects = await listProjects()
+        if (!ignore) {
+          setProjectList(nextProjects)
+          setError(null)
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(err instanceof Error ? err.message : 'Project list could not load.')
+        }
+      } finally {
+        if (!ignore) setIsLoading(false)
+      }
+    }
+
+    load()
+
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   const openProject = (id: string) => {
     navigate(`/projects/${id}`)
@@ -41,7 +72,25 @@ export default function Browse() {
         </header>
 
         <main className="space-y-3 px-5">
-          {projects.map((p) => (
+          {isLoading ? (
+            <div className="rounded-2xl border border-hairline bg-surface p-4 text-sm font-medium text-muted">
+              Loading projects...
+            </div>
+          ) : null}
+
+          {error ? (
+            <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-4 text-sm font-medium text-red-100">
+              {error}
+            </div>
+          ) : null}
+
+          {!isLoading && !error && projectList.length === 0 ? (
+            <div className="rounded-2xl border border-hairline bg-surface p-4 text-sm font-medium text-muted">
+              No projects are fundraising yet.
+            </div>
+          ) : null}
+
+          {projectList.map((p) => (
             <ProjectCard key={p.id} project={p} onOpen={openProject} />
           ))}
         </main>

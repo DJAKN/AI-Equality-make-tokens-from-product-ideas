@@ -20,7 +20,7 @@ For the fastest hackathon path:
 - Supabase Auth for signup and login.
 - Node/Express, Vercel serverless routes, or Supabase Edge Functions for server-owned mutations.
 - `@supabase/supabase-js` in the app and backend.
-- Backend-only environment variables: `SUPABASE_SERVICE_ROLE_KEY` and `OPENAI_API_KEY`.
+- Backend-only environment variables: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `OPENAI_API_KEY`.
 - Browser-safe environment variables: `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`.
 
 For a cleaner version-controlled setup:
@@ -95,8 +95,9 @@ npm run db:types
 ```
 
 Without the CLI, paste the SQL migration into the Supabase Dashboard SQL editor.
-After applying it, test with one auth user, one `projects` row, one mocked
-`donations` row, and one mocked `compute_usage_events` row before wiring the UI.
+After applying it, create one Auth user, then run `supabase/seed.sql` to insert
+the NaviSight project for that profile. The seed intentionally does not insert
+directly into `auth.users`.
 
 For local Supabase Studio and local migration resets, install Docker first, then
 run:
@@ -104,6 +105,19 @@ run:
 ```bash
 npm run db:start
 npm run db:status
+```
+
+The app has a dev-only static fallback for project reads when Supabase browser
+env vars are missing. Production builds fail visibly instead of silently showing
+fixture data.
+
+Mock donation writes use the Vercel function at `api/donations.js`. It requires
+`SUPABASE_SERVICE_ROLE_KEY` on the server and records rows in `donations`.
+
+Run the env-name guard before deployment:
+
+```bash
+npm run security:env
 ```
 
 ## Council Synthesis

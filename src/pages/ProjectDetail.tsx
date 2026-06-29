@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fundingPercent, formatTokens, getProject } from '@/data/projects'
+import { fundingPercent, formatTokens, type Project } from '@/data/projects'
+import { getProject } from '@/data/projectRepository'
+import { recordDonation } from '@/data/donationRepository'
 
 const presetAmounts = [10, 30, 50]
 
@@ -42,9 +44,48 @@ function SparkIcon() {
 export default function ProjectDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const project = id ? getProject(id) : undefined
+  const [project, setProject] = useState<Project | undefined>()
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [selectedAmount, setSelectedAmount] = useState(30)
   const [customAmount, setCustomAmount] = useState('')
+  const [isDonating, setIsDonating] = useState(false)
+  const [donationError, setDonationError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let ignore = false
+
+    async function loadProject() {
+      setIsLoading(true)
+      setError(null)
+      setProject(undefined)
+
+      if (!id) {
+        setIsLoading(false)
+        return
+      }
+
+      try {
+        const nextProject = await getProject(id)
+        if (!ignore) {
+          setProject(nextProject)
+          setError(null)
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(err instanceof Error ? err.message : 'Project details could not load.')
+        }
+      } finally {
+        if (!ignore) setIsLoading(false)
+      }
+    }
+
+    loadProject()
+
+    return () => {
+      ignore = true
+    }
+  }, [id])
 
   const effectiveAmount = useMemo(() => {
     if (customAmount.trim() === '') return selectedAmount
@@ -58,9 +99,19 @@ export default function ProjectDetail() {
     navigate('/browse')
   }
 
-  const fundIdea = () => {
+  const fundIdea = async () => {
     if (!project) return
-    navigate(`/donate/success?project=${project.id}&amount=${effectiveAmount}`)
+    setIsDonating(true)
+    setDonationError(null)
+
+    try {
+      await recordDonation(project.id, effectiveAmount)
+      navigate(`/donate/success?project=${project.id}&amount=${effectiveAmount}`)
+    } catch (err) {
+      setDonationError(err instanceof Error ? err.message : 'Donation could not be recorded.')
+    } finally {
+      setIsDonating(false)
+    }
   }
 
   return (
@@ -96,7 +147,30 @@ export default function ProjectDetail() {
           ) : null}
         </header>
 
-        {!project ? (
+        {isLoading ? (
+          <main className="px-5">
+            <section className="rounded-2xl border border-hairline bg-surface p-5">
+              <p className="font-display text-2xl font-bold text-ink">Loading project</p>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                Preparing the latest funding details.
+              </p>
+            </section>
+          </main>
+        ) : error ? (
+          <main className="px-5">
+            <section className="rounded-2xl border border-red-400/30 bg-red-400/10 p-5">
+              <p className="font-display text-2xl font-bold text-ink">Project could not load</p>
+              <p className="mt-2 text-sm leading-6 text-red-100">{error}</p>
+              <button
+                type="button"
+                onClick={goBack}
+                className="mt-5 w-full rounded-full bg-ink px-5 py-3 text-sm font-bold text-bg transition active:scale-[0.99]"
+              >
+                Back to Browse
+              </button>
+            </section>
+          </main>
+        ) : !project ? (
           <main className="px-5">
             <section className="rounded-2xl border border-hairline bg-surface p-5">
               <p className="font-display text-2xl font-bold text-ink">Project not found</p>
@@ -222,11 +296,15 @@ export default function ProjectDetail() {
               <button
                 type="button"
                 onClick={fundIdea}
+                disabled={isDonating}
                 className="mt-5 w-full rounded-full px-5 py-4 text-sm font-bold text-bg shadow-[0_16px_48px_rgba(34,211,238,.24)] transition active:scale-[0.99]"
                 style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)' }}
               >
-                Fund this idea
+                {isDonating ? 'Recording donation...' : 'Fund this idea'}
               </button>
+              {donationError ? (
+                <p className="mt-3 text-sm font-medium text-red-100">{donationError}</p>
+              ) : null}
             </section>
           </main>
         )}
