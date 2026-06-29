@@ -37,7 +37,7 @@ export default function Landing() {
           type="button"
           className="half donor"
           onClick={() => enter('donor')}
-          aria-label="Continue as donor"
+          aria-label="Continue as funder"
         >
           <span className="ic-wrap">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -46,12 +46,12 @@ export default function Landing() {
               <path d="M12 8v6M9 11h6" />
             </svg>
           </span>
-          <span className="big">Fund <span className="accent">ideas</span></span>
-          <span className="sub">Turn your idle AI budget into someone's breakthrough.</span>
-          <span className="cta">Continue as donor →</span>
+          <span className="big">Fund <span className="accent">projects</span></span>
+          <span className="sub">Fund API access for builders with clear, working ideas.</span>
+          <span className="cta">Continue as funder →</span>
           <span className="entering">
             <span className="dots"><i /><i /><i /></span>
-            <span className="entering-label">Entering donor space…</span>
+            <span className="entering-label">Entering funder view…</span>
           </span>
         </button>
 
@@ -69,8 +69,8 @@ export default function Landing() {
               <path d="M9.5 8.5l2.5 2.5 2.5-2.5" />
             </svg>
           </span>
-          <span className="big">Build an <span className="accent">idea</span></span>
-          <span className="sub">Get the AI compute your project needs — funded by the community.</span>
+          <span className="big">Build a <span className="accent">project</span></span>
+          <span className="sub">Get the API access your project needs — funded by the community.</span>
           <span className="cta">Continue as creator →</span>
           <span className="entering">
             <span className="dots"><i /><i /><i /></span>

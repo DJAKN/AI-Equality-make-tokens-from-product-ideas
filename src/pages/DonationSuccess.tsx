@@ -55,6 +55,27 @@ function FlowIcon() {
   )
 }
 
+function HomeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M3 12L12 3l9 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 10v9a1 1 0 0 0 1 1h4v-4h4v4h4a1 1 0 0 0 1-1v-9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export default function DonationSuccess() {
   const navigate = useNavigate()
   const [params] = useSearchParams()
@@ -92,6 +113,16 @@ export default function DonationSuccess() {
           paddingRight: 'max(env(safe-area-inset-right), 20px)',
         }}
       >
+        <div className="mb-3 flex justify-end">
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            aria-label="Back to home"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-surface text-muted transition active:scale-95"
+          >
+            <HomeIcon />
+          </button>
+        </div>
         <main className="space-y-4">
           <section className="relative overflow-hidden rounded-[34px] border border-brand-cyan/20 bg-surface p-6 text-center shadow-[0_28px_100px_rgba(0,0,0,.34)]">
             <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/70 to-transparent" />
@@ -104,13 +135,13 @@ export default function DonationSuccess() {
             </div>
 
             <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-brand-emerald">
-              Donation complete
+              Funding confirmed
             </p>
             <h1 className="mt-2 font-display text-[34px] font-bold leading-[1.04] text-ink">
-              You just fueled {project.name}
+              {project.name}
             </h1>
             <p className="mx-auto mt-4 max-w-[290px] text-sm leading-6 text-muted">
-              Your contribution is now reserved as platform-managed AI compute for Alex.
+              Your ${amount} contribution has been added to {project.name}'s compute budget. Alex can use it through a platform-issued API key.
             </p>
 
             <div className="mt-6 rounded-3xl border border-brand-cyan/20 bg-bg/60 p-4">
@@ -120,7 +151,7 @@ export default function DonationSuccess() {
                 </div>
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-cyan">
-                    Impact delivered
+                    Compute allocated
                   </p>
                   <p className="mt-1 text-sm leading-5 text-ink">
                     <span className="font-bold">${amount}</span> →{' '}
@@ -183,7 +214,7 @@ export default function DonationSuccess() {
             </div>
 
             <p className="mt-5 text-sm leading-6 text-muted">
-              FuelUp converts this donation into controlled API access, so Alex can start building
+              FuelUp converts this contribution into controlled API access, so Alex can start building
               without receiving cash or managing provider billing.
             </p>
           </section>
@@ -195,6 +226,14 @@ export default function DonationSuccess() {
             style={{ background: 'linear-gradient(135deg,#E6EAF5,#22D3EE)' }}
           >
             Back to projects
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigate(`/projects/${project.id}`)}
+            className="w-full rounded-full border border-hairline bg-surface px-5 py-4 text-sm font-bold text-muted transition active:scale-[0.99]"
+          >
+            View project
           </button>
         </main>
       </div>

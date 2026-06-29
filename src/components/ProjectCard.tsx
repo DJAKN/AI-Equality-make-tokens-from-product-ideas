@@ -45,9 +45,9 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
       </div>
 
       <div className="mt-3 flex items-center justify-between text-xs">
-        <span className="text-muted">≈ {formatTokens(project.goal)} tokens at goal</span>
+        <span className="text-muted">About {formatTokens(project.goal)} tokens at goal</span>
         <span className="font-semibold text-brand-cyan">
-          {pct === 0 ? 'Be the first to fund →' : `${pct}% funded`}
+          {pct === 0 ? 'Be the first to fund →' : 'Fund project →'}
         </span>
       </div>
     </button>

@@ -2,6 +2,27 @@ import { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import OwnerTopNav from '@/components/OwnerTopNav'
 
+function HomeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M3 12L12 3l9 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 10v9a1 1 0 0 0 1 1h4v-4h4v4h4a1 1 0 0 0 1-1v-9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export default function PostNewIdea() {
   const navigate = useNavigate()
 
@@ -23,9 +44,19 @@ export default function PostNewIdea() {
       >
         <OwnerTopNav
           variant="down-drill"
-          title="Post New Idea"
+          title="Post New Project"
           subtitle="Creator intake"
           onBack={() => navigate('/ideas')}
+          action={
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              aria-label="Back to home"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-surface text-muted transition active:scale-95"
+            >
+              <HomeIcon />
+            </button>
+          }
         />
 
         <main className="px-5">
@@ -38,17 +69,17 @@ export default function PostNewIdea() {
                 Request compute
               </p>
               <h1 className="mt-2 font-display text-[30px] font-bold leading-tight text-ink">
-                Share the idea you want to build
+                Share the project you want to build
               </h1>
               <p className="mt-2 text-sm leading-6 text-muted">
-                Keep it concrete: what you are building, why AI compute matters, and how much access
+                Keep it concrete: what you are building, why API access matters, and how much compute
                 you need.
               </p>
             </div>
 
             <label className="block">
               <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
-                Idea name
+                Project name
               </span>
               <input
                 required
@@ -67,7 +98,7 @@ export default function PostNewIdea() {
                 defaultValue="AI navigation for the visually impaired"
                 rows={3}
                 className="mt-2 w-full resize-none rounded-2xl border border-hairline bg-bg/60 px-4 py-3 text-sm font-semibold leading-6 text-ink outline-none placeholder:text-muted focus:border-brand-violet/70"
-                placeholder="What should donors understand in one sentence?"
+                placeholder="What should funders understand in one sentence?"
               />
             </label>
 
@@ -117,7 +148,7 @@ export default function PostNewIdea() {
               className="w-full rounded-full px-5 py-4 text-sm font-bold text-bg shadow-[0_16px_48px_rgba(168,85,247,.24)] transition active:scale-[0.99]"
               style={{ background: 'linear-gradient(135deg,#A855F7,#6366F1)' }}
             >
-              Submit idea
+              Submit project
             </button>
           </form>
         </main>
