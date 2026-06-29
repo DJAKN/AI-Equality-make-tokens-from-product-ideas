@@ -25,7 +25,7 @@ export default function Landing() {
     if (next === 'donor') {
       timer.current = window.setTimeout(() => navigate('/browse'), 850)
     } else if (next === 'creator') {
-      timer.current = window.setTimeout(() => navigate('/ideas'), 850)
+      timer.current = window.setTimeout(() => navigate('/creator-auth'), 850)
     }
   }
 
@@ -71,7 +71,7 @@ export default function Landing() {
           </span>
           <span className="big">Build a <span className="accent">project</span></span>
           <span className="sub">Get the API access your project needs — funded by the community.</span>
-          <span className="cta">Continue as creator →</span>
+          <span className="cta">Continue as a creator →</span>
           <span className="entering">
             <span className="dots"><i /><i /><i /></span>
             <span className="entering-label">Entering your workspace…</span>
