@@ -5,6 +5,9 @@ import Landing from '@/pages/Landing'
 import Browse from '@/pages/Browse'
 import ProjectDetail from '@/pages/ProjectDetail'
 import DonationSuccess from '@/pages/DonationSuccess'
+import MyIdeas from '@/pages/MyIdeas'
+import IdeaDashboard from '@/pages/IdeaDashboard'
+import PostNewIdea from '@/pages/PostNewIdea'
 import '@/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -15,8 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/browse" element={<Browse />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
         <Route path="/donate/success" element={<DonationSuccess />} />
-        {/* Idea Owner track: /ideas, /ideas/:id, /ideas/new
-            — added as screens are implemented. */}
+        <Route path="/ideas" element={<MyIdeas />} />
+        <Route path="/ideas/new" element={<PostNewIdea />} />
+        <Route path="/ideas/:id" element={<IdeaDashboard />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

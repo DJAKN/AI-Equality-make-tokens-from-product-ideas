@@ -11,7 +11,6 @@ type Role = 'none' | 'donor' | 'creator'
  * tap the center FuelUp pill to reset.
  *
  * On enter we play the "entering" animation briefly, then route to the track.
- * Creator route (/ideas) is added when that screen exists.
  */
 export default function Landing() {
   const [role, setRole] = useState<Role>('none')
@@ -26,10 +25,7 @@ export default function Landing() {
     if (next === 'donor') {
       timer.current = window.setTimeout(() => navigate('/browse'), 850)
     } else if (next === 'creator') {
-      // TODO: navigate('/ideas') once that screen exists. Until then, play the
-      // entering animation briefly then reset (the logo pill is hidden while
-      // selected, so we must release the user automatically).
-      timer.current = window.setTimeout(() => setRole('none'), 1600)
+      timer.current = window.setTimeout(() => navigate('/ideas'), 850)
     }
   }
 
