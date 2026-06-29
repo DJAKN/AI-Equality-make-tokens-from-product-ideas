@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import OwnerTopNav from '@/components/OwnerTopNav'
+import TokenBurnBar from '@/components/TokenBurnBar'
+import FundingProgressBar from '@/components/FundingProgressBar'
 import {
   creatorFundingPercent,
   formatCurrency,
@@ -95,31 +97,11 @@ function UsageCards({ usage }: { usage: ProjectUsage }) {
         </p>
 
         {/* Burn-down bar: used vs remaining */}
-        <div className="mt-4 rounded-2xl border border-hairline bg-bg/55 p-4">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-semibold text-brand-violet">
-              {(usage.tokensUsed / 1_000).toFixed(0)}K used
-            </span>
-            <span className="text-muted">
-              {(usage.tokensRemaining / 1_000).toFixed(0)}K remaining
-            </span>
-          </div>
-          <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-[#1B2236]">
-            <div
-              className="h-full rounded-l-full transition-[width] duration-500"
-              style={{
-                width: `${(budgetPct * 100).toFixed(1)}%`,
-                background: 'linear-gradient(90deg,#A855F7,#6366F1)',
-              }}
-            />
-            <div
-              className="h-full flex-1 rounded-r-full"
-              style={{ background: 'linear-gradient(90deg,#6366F1,#22D3EE)' }}
-            />
-          </div>
-          <p className="mt-2 text-xs text-muted">
-            {(budgetPct * 100).toFixed(0)}% of funded tokens consumed
-          </p>
+        <div className="mt-4">
+          <TokenBurnBar
+            tokensUsed={usage.tokensUsed}
+            tokensRemaining={usage.tokensRemaining}
+          />
         </div>
 
         {/* Input vs output stacked bar */}
@@ -286,11 +268,8 @@ function DashboardContent({ idea }: { idea: CreatorIdea }) {
             <span className="font-semibold text-ink">${idea.raised} funded</span>
             <span className="text-muted">Goal ${idea.goal}</span>
           </div>
-          <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-[#1B2236]">
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#A855F7,#6366F1)' }}
-            />
+          <div className="mt-3">
+            <FundingProgressBar raised={idea.raised} goal={idea.goal} />
           </div>
           <div className="mt-3 flex items-center justify-between text-xs text-muted">
             <span>{pct}% funded</span>

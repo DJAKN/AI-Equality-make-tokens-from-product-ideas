@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fundingPercent, formatTokens, getProject } from '@/data/projects'
 import { getProjectUsage, formatBucketDate, formatTimestamp } from '@/data/usageLedger'
+import TokenBurnBar from '@/components/TokenBurnBar'
 
 function HomeIcon() {
   return (
@@ -183,7 +184,7 @@ export default function ProjectDetail() {
               </div>
             </section>
 
-            {usage && project.raised > 0 ? (
+            {usage ? (
               <>
                 {/* Impact Summary */}
                 <section className="rounded-[28px] border border-hairline bg-surface p-5 shadow-[0_24px_80px_rgba(0,0,0,.24)]">
@@ -192,31 +193,12 @@ export default function ProjectDetail() {
                   </p>
 
                   {/* Burn-down: used vs remaining */}
-                  <div className="mt-4 rounded-2xl border border-hairline bg-bg/55 p-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-brand-violet">
-                        {(usage.tokensUsed / 1_000).toFixed(0)}K used
-                      </span>
-                      <span className="text-muted">
-                        {(usage.tokensRemaining / 1_000).toFixed(0)}K left
-                      </span>
-                    </div>
-                    <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-[#1B2236]">
-                      <div
-                        className="h-full rounded-l-full transition-[width] duration-500"
-                        style={{
-                          width: `${((usage.tokensUsed / (usage.tokensUsed + usage.tokensRemaining)) * 100).toFixed(1)}%`,
-                          background: 'linear-gradient(90deg,#A855F7,#6366F1)',
-                        }}
-                      />
-                      <div
-                        className="h-full flex-1 rounded-r-full"
-                        style={{ background: 'linear-gradient(90deg,#6366F1,#22D3EE)' }}
-                      />
-                    </div>
-                    <p className="mt-2 text-xs text-muted">
-                      {((usage.tokensUsed / (usage.tokensUsed + usage.tokensRemaining)) * 100).toFixed(0)}% of funded tokens consumed
-                    </p>
+                  <div className="mt-4">
+                    <TokenBurnBar
+                      tokensUsed={usage.tokensUsed}
+                      tokensRemaining={usage.tokensRemaining}
+                      remainingLabel="left"
+                    />
                   </div>
 
                   <div className="mt-3 grid grid-cols-2 gap-3">
