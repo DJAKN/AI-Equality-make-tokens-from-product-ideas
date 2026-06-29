@@ -82,6 +82,11 @@
   .nav-note.back{background:rgba(99,102,241,.08); color:#4338CA; border:1px solid rgba(99,102,241,.18);}
   .nav-note.root{background:#F1F5F9; color:#64748B; border:1px solid var(--line);}
   .nav-note .k{flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:700;}
+  .route-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:18px 0 28px;}
+  .route-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 14px;}
+  .route-card .rt{font-family:ui-monospace,monospace; font-size:12px; font-weight:700; color:var(--ink);}
+  .route-card .rs{font-size:12px; color:var(--ink-soft); margin-top:4px;}
+  .route-card .warn{color:#B45309; font-weight:700;}
 
   /* top nav bar pattern */
   .nav-demo{position:relative; background:var(--bg); border:1px solid var(--border); border-radius:24px; overflow:hidden;}
@@ -161,31 +166,56 @@
     background:rgba(255,255,255,.35); transform:translate(-50%,-50%); animation:ripple .6s ease-out;}
   @keyframes ripple{to{width:520px; height:520px; opacity:0}}
 
-  /* ====== wireframe phones (page flow + breakdown) ====== */
+  /* ====== live-aligned mini screens (page flow + breakdown) ====== */
   .flow-scroll{overflow-x:auto; padding:6px 2px 12px;}
   .flow-rail{display:flex; align-items:center; gap:0; min-width:max-content;}
   .track{display:flex; align-items:center; margin-bottom:16px;}
   .track-tag{writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; padding:0 8px;}
   .track-tag.donor-t{color:#0891B2;} .track-tag.owner-t{color:#7C3AED;}
-  .wp{width:150px; flex:0 0 auto; background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:12px 10px 13px;
-    display:flex; flex-direction:column; gap:7px; min-height:236px; color:var(--text);}
-  .wp-step{font-size:8.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:700;}
+  .wp{width:184px; flex:0 0 auto; position:relative; overflow:hidden; background:var(--bg); border:1px solid var(--border);
+    border-radius:24px; padding:9px; min-height:310px; color:var(--text); box-shadow:inset 0 1px 0 rgba(255,255,255,.03);}
+  .wp:before{content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%); width:58px; height:16px; border-radius:999px; background:#05070D; z-index:2;}
+  .wp-body{position:relative; display:flex; flex-direction:column; gap:8px; min-height:292px; padding-top:27px;}
+  .wp-head{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 2px 2px;}
+  .wp-brand{display:flex; align-items:center; gap:5px; min-width:0; font-family:'Space Grotesk',sans-serif; font-size:9.5px; font-weight:700; color:var(--muted);}
+  .wp-brand .gem{width:6px; height:6px; border-radius:999px; background:linear-gradient(135deg,var(--cyan),var(--violet)); box-shadow:0 0 8px rgba(34,211,238,.65);}
+  .wp-back{width:19px; height:19px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:#10182A; border:1px solid #263148; color:#9BA6C4; font-size:12px;}
+  .wp-chip{display:inline-flex; align-items:center; justify-content:center; min-height:17px; padding:0 6px; border-radius:999px; border:1px solid #263148; background:#10182A; color:#9BA6C4; font-size:7.5px; font-weight:700; white-space:nowrap;}
+  .wp-chip.cyan{border-color:rgba(34,211,238,.28); background:rgba(34,211,238,.09); color:var(--cyan);}
+  .wp-chip.violet{border-color:rgba(168,85,247,.30); background:rgba(168,85,247,.10); color:#C084FC;}
+  .wp-chip.green{border-color:rgba(52,211,153,.28); background:rgba(52,211,153,.10); color:var(--emerald);}
+  .wp-step{font-size:7.8px; letter-spacing:.11em; text-transform:uppercase; font-weight:800;}
   .wp-step.donor-t{color:var(--cyan);} .wp-step.owner-t{color:#818CF8;}
-  .wp-h{font-size:12px; font-weight:700; color:var(--text); line-height:1.25; font-family:'Space Grotesk',sans-serif;}
-  .wp-line{height:6px; border-radius:4px; background:#1B2236;}
+  .wp-title{font-family:'Space Grotesk',sans-serif; font-size:18px; line-height:1.08; font-weight:700; color:var(--text); margin:1px 0;}
+  .wp-title.small{font-size:15px;}
+  .wp-sub{font-size:8.2px; line-height:1.35; color:var(--muted);}
+  .wp-card{background:linear-gradient(180deg,#141C31,#0F1526); border:1px solid var(--border); border-radius:12px; padding:9px; display:flex; flex-direction:column; gap:7px;}
+  .wp-card.soft{background:rgba(19,26,46,.72);}
+  .wp-row{display:flex; align-items:center; justify-content:space-between; gap:6px;}
+  .wp-kicker{font-size:7.5px; letter-spacing:.09em; text-transform:uppercase; font-weight:800; color:#6B7693;}
+  .wp-name{font-family:'Space Grotesk',sans-serif; font-size:12px; line-height:1.12; font-weight:700; color:var(--text);}
+  .wp-line{height:5px; border-radius:4px; background:#1B2236;}
   .wp-line.sm{width:70%;} .wp-line.xs{width:45%;}
-  .wp-block{background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:8px; display:flex; flex-direction:column; gap:5px;}
-  .wp-bar{height:5px; border-radius:3px; background:#1B2236; overflow:hidden;}
-  .wp-bar>i{display:block; height:100%; border-radius:3px; background:linear-gradient(90deg,var(--indigo),var(--cyan));}
-  .wp-btn{text-align:center; font-size:10px; font-weight:700; padding:8px; border-radius:8px; background:linear-gradient(90deg,var(--indigo),var(--cyan)); color:#04121A;}
+  .wp-bar{height:5px; border-radius:999px; background:#1B2236; overflow:hidden;}
+  .wp-bar>i{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--indigo),var(--cyan));}
+  .wp-bar.owner>i{background:linear-gradient(90deg,#818CF8,var(--violet));}
+  .wp-bar.green>i{background:linear-gradient(90deg,var(--emerald),var(--cyan));}
+  .wp-meta{font-size:7.7px; line-height:1.25; color:var(--muted);}
+  .wp-meta b{color:var(--text);}
+  .wp-stat{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+  .wp-stat>div{border:1px solid #263148; background:#10182A; border-radius:9px; padding:7px;}
+  .wp-stat .num{font-size:11.5px; font-weight:800; color:var(--text);}
+  .wp-btn{text-align:center; font-size:9.5px; font-weight:800; padding:8px 7px; border-radius:9px; background:linear-gradient(90deg,var(--indigo),var(--cyan)); color:#04121A;}
   .wp-btn.ghost{background:transparent; border:1px solid #2A3349; color:#9BA6C4;}
   .wp-btn.owner-b{background:linear-gradient(90deg,#818CF8,var(--violet)); color:#0A0414;}
-  .wp-tag{font-size:9px; color:var(--emerald); font-weight:600;}
-  .wp-mono{font-family:ui-monospace,monospace; font-size:8.5px; color:var(--muted); background:#0E1424; border:1px dashed #2A3349; border-radius:6px; padding:5px;}
-  .wp-role{font-size:8.5px; color:#6B7693; margin-top:auto;}
+  .wp-chip-row{display:flex; gap:5px;}
+  .wp-chip-row .wp-btn{flex:1; padding:6px 4px; font-size:8px;}
+  .wp-mono{font-family:ui-monospace,monospace; font-size:8px; color:var(--muted); background:#0E1424; border:1px dashed #2A3349; border-radius:7px; padding:6px; white-space:nowrap;}
+  .wp-field{height:18px; display:flex; align-items:center; padding:0 6px; border-radius:7px; background:#0E1424; border:1px solid #263148; color:#6B7693; font-size:7.6px;}
+  .wp-success{width:40px; height:40px; margin:1px auto 0; display:flex; align-items:center; justify-content:center; border-radius:50%; background:rgba(52,211,153,.14); border:1px solid rgba(52,211,153,.30); color:var(--emerald); font-size:20px; box-shadow:0 0 22px rgba(52,211,153,.18);}
+  .wp-route{font-family:ui-monospace,monospace; font-size:7.4px; color:#56627D; margin-top:auto;}
   .arrow{width:30px; text-align:center; color:#9CA8C0; font-size:16px; flex:0 0 auto;}
   .arrow small{display:block; font-size:7.5px; color:#B0B9CC;}
-  .role-tt{font-size:10px; font-weight:700; color:var(--text);}
 
   footer{border-top:1px solid var(--line); padding-top:24px; color:var(--ink-soft); font-size:13px;}
 </style>
@@ -329,28 +359,85 @@
             <div class="track-tag donor-t">Donor</div>
             <div class="flow-rail">
               <div class="wp">
-                <div class="wp-step donor-t">Browse</div>
-                <div class="wp-h">Discover projects</div>
-                <div class="wp-block"><div class="wp-line sm"></div><div class="wp-bar"><i style="width:60%"></i></div><div class="wp-line xs"></div></div>
-                <div class="wp-block"><div class="wp-line sm"></div><div class="wp-bar"><i style="width:35%"></i></div></div>
-                <div class="wp-role">list of projects</div>
+                <div class="wp-body">
+                  <div class="wp-head">
+                    <div class="wp-brand"><span class="gem"></span>FuelUp</div>
+                    <div class="wp-chip cyan">Donor</div>
+                  </div>
+                  <div>
+                    <div class="wp-step donor-t">Browse</div>
+                    <div class="wp-title">Browse</div>
+                    <div class="wp-sub">Fund a builder with AI compute.</div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-row"><span class="wp-chip green">Fundraising</span><span class="wp-chip cyan">GPT-4o Vision</span></div>
+                    <div>
+                      <div class="wp-name">NaviSight</div>
+                      <div class="wp-meta">Alex is building a camera-first navigation assistant.</div>
+                    </div>
+                    <div class="wp-bar"><i style="width:0%"></i></div>
+                    <div class="wp-row"><span class="wp-meta"><b>$0</b> raised</span><span class="wp-meta">Goal <b>$50</b></span></div>
+                    <div class="wp-meta">~2.5M tokens at goal</div>
+                    <div class="wp-btn">Be the first to fund</div>
+                  </div>
+                  <div class="wp-route">/browse</div>
+                </div>
               </div>
               <div class="arrow">→<small>tap</small></div>
               <div class="wp">
-                <div class="wp-step donor-t">Detail + Donate</div>
-                <div class="wp-h">NaviSight</div>
-                <div class="wp-line"></div>
-                <div class="wp-block"><div class="wp-tag">$30 / $50</div><div class="wp-bar"><i style="width:60%"></i></div></div>
-                <div style="display:flex; gap:4px;"><div class="wp-btn ghost" style="flex:1; font-size:9px;">$10</div><div class="wp-btn ghost" style="flex:1; font-size:9px;">$30</div><div class="wp-btn ghost" style="flex:1; font-size:9px;">$50</div></div>
-                <div class="wp-btn">Fund this idea</div>
+                <div class="wp-body">
+                  <div class="wp-head">
+                    <div class="wp-back">‹</div>
+                    <div class="wp-brand">NaviSight</div>
+                    <div class="wp-chip green">Live</div>
+                  </div>
+                  <div>
+                    <div class="wp-step donor-t">Detail + Donate</div>
+                    <div class="wp-title small">NaviSight</div>
+                    <div class="wp-sub">AI navigation assistant for low-vision students.</div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-row"><span class="wp-chip green">Fundraising</span><span class="wp-chip cyan">GPT-4o Vision</span></div>
+                    <div class="wp-row"><span class="wp-meta"><b>$0</b> raised</span><span class="wp-meta">Goal <b>$50</b></span></div>
+                    <div class="wp-bar"><i style="width:0%"></i></div>
+                    <div class="wp-meta">0% funded · approximately 2.5M tokens at goal.</div>
+                  </div>
+                  <div class="wp-card soft">
+                    <div class="wp-kicker">Choose amount</div>
+                    <div class="wp-chip-row">
+                      <div class="wp-btn ghost">$10</div>
+                      <div class="wp-btn">$30</div>
+                      <div class="wp-btn ghost">$50</div>
+                    </div>
+                    <div class="wp-meta">$30 gives Alex approximately 1.5M GPT-4o tokens.</div>
+                  </div>
+                  <div class="wp-btn">Fund this idea</div>
+                </div>
               </div>
               <div class="arrow">→<small>pay</small></div>
               <div class="wp">
-                <div class="wp-step donor-t">Success</div>
-                <div style="text-align:center; font-size:26px; margin:4px 0;">✦</div>
-                <div class="wp-h" style="text-align:center;">Thank you!</div>
-                <div class="wp-block" style="text-align:center;"><div style="font-size:9px; color:var(--cyan); font-weight:700;">$30 → ~1.5M tokens</div></div>
-                <div class="wp-btn ghost">Back to projects</div>
+                <div class="wp-body">
+                  <div class="wp-success">✓</div>
+                  <div style="text-align:center;">
+                    <div class="wp-step donor-t">Donation complete</div>
+                    <div class="wp-title small">You just fueled NaviSight.</div>
+                    <div class="wp-sub">Impact delivered instantly.</div>
+                  </div>
+                  <div class="wp-card" style="text-align:center;">
+                    <div class="wp-kicker">Impact delivered</div>
+                    <div class="wp-name">$30 -> ~1.5M GPT-4o tokens</div>
+                    <div class="wp-meta">for Alex</div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-row"><span class="wp-meta"><b>$30 / $50</b></span><span class="wp-chip green">60%</span></div>
+                    <div class="wp-bar green"><i style="width:60%"></i></div>
+                    <div class="wp-stat">
+                      <div><div class="wp-kicker">New balance</div><div class="num">$30</div></div>
+                      <div><div class="wp-kicker">Token access</div><div class="num">1.5M</div></div>
+                    </div>
+                  </div>
+                  <div class="wp-btn ghost">Back to projects</div>
+                </div>
               </div>
             </div>
           </div>
@@ -360,31 +447,85 @@
             <div class="track-tag owner-t">Idea Owner</div>
             <div class="flow-rail">
               <div class="wp">
-                <div class="wp-step owner-t">My Ideas</div>
-                <div class="wp-h">Manage your ideas</div>
-                <div class="wp-block"><div class="role-tt">NaviSight</div><div class="wp-bar"><i style="width:60%"></i></div><div style="font-size:8px; color:var(--emerald);">Fundraising · $30/$50</div></div>
-                <div class="wp-block" style="opacity:.65;"><div class="role-tt">EchoNote</div><div class="wp-bar"><i style="width:15%"></i></div><div style="font-size:8px; color:var(--muted);">Fundraising · $5/$40</div></div>
-                <div class="wp-btn owner-b" style="font-size:9px;">+ Post new idea</div>
-                <div class="wp-role">select one → its dashboard</div>
+                <div class="wp-body">
+                  <div class="wp-head">
+                    <div class="wp-brand"><span class="gem"></span>FuelUp</div>
+                    <div class="wp-btn owner-b" style="padding:5px 7px; font-size:8px;">+ New</div>
+                  </div>
+                  <div>
+                    <div class="wp-step owner-t">Creator workspace</div>
+                    <div class="wp-title">My Ideas</div>
+                    <div class="wp-sub">Manage funded ideas and open a dashboard.</div>
+                  </div>
+                  <div class="wp-stat">
+                    <div><div class="wp-kicker">Available</div><div class="num">$35.00</div></div>
+                    <div><div class="wp-kicker">Active ideas</div><div class="num">2</div></div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-row"><div class="wp-name">NaviSight</div><span class="wp-chip green">60%</span></div>
+                    <div class="wp-meta">Fundraising · $30 / $50</div>
+                    <div class="wp-bar owner"><i style="width:60%"></i></div>
+                  </div>
+                  <div class="wp-card soft">
+                    <div class="wp-row"><div class="wp-name">EchoNote</div><span class="wp-chip violet">13%</span></div>
+                    <div class="wp-meta">Fundraising · $5 / $40</div>
+                    <div class="wp-bar owner"><i style="width:13%"></i></div>
+                  </div>
+                  <div class="wp-route">/ideas</div>
+                </div>
               </div>
               <div class="arrow">→<small>select</small></div>
               <div class="wp">
-                <div class="wp-step owner-t">Idea Dashboard</div>
-                <div class="wp-h">NaviSight</div>
-                <div class="wp-block"><div class="wp-line xs"></div><div style="font-size:13px; color:var(--emerald); font-weight:700;">$30.00</div><div style="font-size:8px; color:var(--muted);">available balance</div></div>
-                <div class="wp-mono">sk-fuelup-••••3a9 ⧉</div>
-                <div class="wp-btn owner-b">Run live API call</div>
-                <div class="wp-block" style="font-size:8px; color:var(--emerald);">✓ 200 OK · response received</div>
-                <div class="wp-role">key + live demo (per idea)</div>
+                <div class="wp-body">
+                  <div class="wp-head">
+                    <div class="wp-back">‹</div>
+                    <div class="wp-brand">NaviSight</div>
+                    <div class="wp-chip green">Active</div>
+                  </div>
+                  <div>
+                    <div class="wp-step owner-t">Idea Dashboard</div>
+                    <div class="wp-title small">NaviSight</div>
+                    <div class="wp-sub">Turn donations into platform-managed API access.</div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-row"><span class="wp-meta">Available balance</span><span class="wp-chip green">$30 funded</span></div>
+                    <div class="wp-title small">$30.00</div>
+                    <div class="wp-row"><span class="wp-meta">Goal $50</span><span class="wp-meta">60% funded</span></div>
+                    <div class="wp-bar owner"><i style="width:60%"></i></div>
+                    <div class="wp-meta">1.5M tokens available</div>
+                  </div>
+                  <div class="wp-card soft">
+                    <div class="wp-kicker">Platform API key</div>
+                    <div class="wp-mono">sk-fuelup-....3a9</div>
+                    <div class="wp-btn ghost">Copy API key</div>
+                  </div>
+                  <div class="wp-btn owner-b">Run live API call</div>
+                  <div class="wp-meta" style="color:var(--emerald);">200 OK · response received</div>
+                </div>
               </div>
               <div class="arrow" style="opacity:.5;">⇠<small>branch</small></div>
               <div class="wp" style="opacity:.7; border-style:dashed;">
-                <div class="wp-step owner-t">Post new idea</div>
-                <div class="wp-h">New idea</div>
-                <div class="wp-block"><div class="wp-line sm"></div><div class="wp-line"></div><div class="wp-line xs"></div></div>
-                <div class="wp-block"><div style="font-size:8px; color:var(--muted);">Goal amount · use case</div></div>
-                <div class="wp-btn owner-b" style="font-size:9px;">Submit</div>
-                <div class="wp-role">optional · from “My Ideas”</div>
+                <div class="wp-body">
+                  <div class="wp-head">
+                    <div class="wp-back">‹</div>
+                    <div class="wp-brand">Post New Idea</div>
+                    <div class="wp-chip violet">Draft</div>
+                  </div>
+                  <div>
+                    <div class="wp-step owner-t">Creator intake</div>
+                    <div class="wp-title small">Share the idea you want to build.</div>
+                    <div class="wp-sub">Request compute from the FuelUp community.</div>
+                  </div>
+                  <div class="wp-card">
+                    <div class="wp-field">Idea name</div>
+                    <div class="wp-field">One-line pitch</div>
+                    <div class="wp-field">Goal</div>
+                    <div class="wp-field">AI use case</div>
+                    <div class="wp-field" style="height:34px; align-items:flex-start; padding-top:6px;">Review note</div>
+                  </div>
+                  <div class="wp-btn owner-b">Submit idea</div>
+                  <div class="wp-route">/ideas/new -> /ideas?created=1</div>
+                </div>
               </div>
             </div>
           </div>
@@ -398,37 +539,51 @@
   <section>
     <div class="eyebrow">06 · Screens</div>
     <h2 class="sec">Screen breakdown</h2>
-    <p class="sec-desc">Six screens beyond Landing, grouped by track. All share the tokens and components above. Each card notes its in-app navigation — only down-drill screens need a back control; track entry points don't.</p>
+    <p class="sec-desc">Six screens beyond Landing, grouped by track. This section now reflects the live implementation at <code>fuelup-xi.vercel.app</code>. Each card notes its route and navigation contract — only down-drill screens need a back control; track entry points don't.</p>
+
+    <div class="route-grid">
+      <div class="route-card"><div class="rt">/</div><div class="rs">Landing · Split Duo role entry</div></div>
+      <div class="route-card"><div class="rt">/browse</div><div class="rs">Donor track entry · one seeded NaviSight card</div></div>
+      <div class="route-card"><div class="rt">/projects/navisight</div><div class="rs">Detail + Donate · default amount $30</div></div>
+      <div class="route-card"><div class="rt">/donate/success?project=navisight&amp;amount=30</div><div class="rs">Terminal success screen · no back arrow</div></div>
+      <div class="route-card"><div class="rt">/ideas</div><div class="rs">Idea owner entry · My Ideas</div></div>
+      <div class="route-card"><div class="rt">/ideas/navisight</div><div class="rs">Per-idea dashboard · key + live API call demo</div></div>
+      <div class="route-card"><div class="rt">/ideas/new</div><div class="rs">Post New Idea mocked intake form</div></div>
+      <div class="route-card"><div class="rt warn">/projects/</div><div class="rs">Not a product route; use <code>/projects/navisight</code>.</div></div>
+    </div>
 
     <!-- Donor track -->
     <div class="group-head"><span class="gtag donor-g">Donor track</span><span class="gline"></span></div>
     <div class="cols">
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">Browse <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Browse <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>Header with FuelUp logo + short tagline.</li>
-          <li>Vertical list of project cards: name, one-line pitch, progress bar ($ raised / goal), token estimate.</li>
-          <li>Seeded mock data; tap a card → Detail.</li>
+          <li>Route: <code>/browse</code>.</li>
+          <li>Top-level header with FuelUp logo, large title, and no back button.</li>
+          <li>One seeded donor-facing card: NaviSight, GPT-4o Vision, <strong>$0 / $50</strong>, ~2.5M tokens at goal.</li>
+          <li>Tap NaviSight → <code>/projects/navisight</code>.</li>
         </ul>
         <div class="nav-note root"><span class="k">⌂</span><span><strong>Entry of donor track — no back.</strong> Forward: tap a project card → Detail + Donate.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">Detail + Donate <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Detail + Donate <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>Project title, description, intended AI use case.</li>
-          <li>Fundraising status + progress bar (emerald when funded).</li>
-          <li>Amount chips ($10 / $30 / $50 / custom) → live token estimate ("$30 → ~1.5M GPT-4o tokens").</li>
-          <li>Primary CTA "Fund this idea" → mocked payment.</li>
+          <li>Route: <code>/projects/navisight</code>.</li>
+          <li>Down-drill top nav: back arrow to Browse, centered title, right status pill.</li>
+          <li>Project detail, status/use-case chips, <strong>$0 / $50</strong> progress, and token-at-goal estimate.</li>
+          <li>Amount chips ($10 / $30 / $50) plus custom amount input; default is <strong>$30</strong>.</li>
+          <li>Primary CTA <strong>Fund this idea</strong> → <code>/donate/success?project=navisight&amp;amount=&lt;selected&gt;</code>.</li>
         </ul>
         <div class="nav-note back"><span class="k">←</span><span><strong>Back to Browse</strong> (top-left). Forward: "Fund this idea" → Donation Success.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">Donation Success <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Donation Success <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>Success animation (e.g. burst / check).</li>
-          <li>Impact line: "$30 → ~1.5M GPT-4o tokens for Alex".</li>
-          <li>Updated project status; "Back to projects".</li>
-          <li>Demo idea: animate value flowing toward the creator.</li>
+          <li>Route: <code>/donate/success?project=navisight&amp;amount=30</code>.</li>
+          <li>Terminal screen with success burst/check and no back arrow.</li>
+          <li>Impact line: <strong>$30 → ~1.5M GPT-4o tokens for Alex</strong>.</li>
+          <li>Updated status card: <strong>$30 / $50</strong>, 60% funded, $30 new balance, 1.5M token access.</li>
+          <li>Primary forward CTA <strong>Back to projects</strong> → <code>/browse</code>.</li>
         </ul>
         <div class="nav-note root"><span class="k">✓</span><span><strong>Terminal screen — no back arrow.</strong> A forward CTA "Back to projects" returns to Browse.</span></div>
       </div>
@@ -438,28 +593,34 @@
     <div class="group-head" style="margin-top:32px;"><span class="gtag owner-g">Idea Owner track</span><span class="gline"></span></div>
     <div class="cols">
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">My Ideas <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">My Ideas <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>List of the creator's ideas with per-idea status + balance.</li>
-          <li>"+ Post new idea" → creation form.</li>
-          <li>Select an idea → its Dashboard.</li>
+          <li>Route: <code>/ideas</code>.</li>
+          <li>Top-level creator header with violet-accent FuelUp mark and right action <strong>+ New</strong>.</li>
+          <li>Workspace summary: <strong>$35.00</strong> available across <strong>2</strong> active ideas.</li>
+          <li>Cards: NaviSight ($30/$50, $30 balance) and EchoNote ($5/$40, $5 balance).</li>
+          <li>Select idea → <code>/ideas/:id</code>; + New → <code>/ideas/new</code>.</li>
         </ul>
         <div class="nav-note root"><span class="k">⌂</span><span><strong>Entry of idea-owner track — no back.</strong> Forward: select an idea → Idea Dashboard, or "+ Post new idea" → New Idea.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">Idea Dashboard <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Idea Dashboard <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>Available balance (emerald), incoming donations.</li>
-          <li>Platform-issued API key with copy affordance.</li>
-          <li>"Run live API call" → real response shown (the demo's payoff moment).</li>
+          <li>Route: <code>/ideas/navisight</code>.</li>
+          <li>Down-drill top nav back to My Ideas.</li>
+          <li>Available balance <strong>$30.00</strong>, funding progress, and available token estimate.</li>
+          <li>Platform-issued masked key <code>sk-fuelup-••••3a9</code> with copy affordance.</li>
+          <li><strong>Run live API call</strong> reveals local success state: <strong>200 OK · response received</strong>.</li>
         </ul>
         <div class="nav-note back"><span class="k">←</span><span><strong>Back to My Ideas</strong> (top-left) — this is a per-idea drill-in.</span></div>
       </div>
       <div class="notes">
-        <h3 class="sub" style="margin-top:0;">Post New Idea <span class="pill todo">Structure defined</span></h3>
+        <h3 class="sub" style="margin-top:0;">Post New Idea <span class="pill done">Implemented</span></h3>
         <ul>
-          <li>Form: name, pitch, goal amount, intended AI use case.</li>
-          <li>Submit → new idea appears in My Ideas.</li>
+          <li>Route: <code>/ideas/new</code>.</li>
+          <li>Down-drill top nav back/cancel to My Ideas.</li>
+          <li>Form fields: idea name, one-line pitch, goal amount, intended AI use case.</li>
+          <li>Mock submit → <code>/ideas?created=1</code> and My Ideas confirmation: <strong>Idea draft added to your workspace.</strong></li>
         </ul>
         <div class="nav-note back"><span class="k">←</span><span><strong>Cancel / Back to My Ideas</strong> (top-left, form screen). On Submit: return to My Ideas.</span></div>
       </div>
@@ -514,8 +675,8 @@
     <div class="notes" style="max-width:720px; margin-top:24px;">
       <h3 class="sub" style="margin-top:0;">Component primitives</h3>
       <ul>
-        <li>Project card · progress bar · amount chip · gradient CTA · API-key field · status pill · top nav bar (back arrow + title).</li>
-        <li>Implemented on shadcn/ui + Tailwind per the PRD stack.</li>
+        <li>Project card · creator idea card · progress bar · amount chip · gradient CTA · API-key field · status pill · top nav bar (back arrow + title).</li>
+        <li>Current app implementation uses React + Vite + Tailwind utility classes with the tokens defined above.</li>
       </ul>
     </div>
   </section>
