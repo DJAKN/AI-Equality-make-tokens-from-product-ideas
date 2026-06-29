@@ -5,6 +5,7 @@ import Landing from '@/pages/Landing'
 import Browse from '@/pages/Browse'
 import ProjectDetail from '@/pages/ProjectDetail'
 import DonationSuccess from '@/pages/DonationSuccess'
+import CreatorAuth from '@/pages/CreatorAuth'
 import MyIdeas from '@/pages/MyIdeas'
 import IdeaDashboard from '@/pages/IdeaDashboard'
 import PostNewIdea from '@/pages/PostNewIdea'
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/browse" element={<Browse />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
         <Route path="/donate/success" element={<DonationSuccess />} />
+        <Route path="/creator-auth" element={<CreatorAuth />} />
         <Route path="/ideas" element={<MyIdeas />} />
         <Route path="/ideas/new" element={<PostNewIdea />} />
         <Route path="/ideas/:id" element={<IdeaDashboard />} />
